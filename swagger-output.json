@@ -1,0 +1,211 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Meta API",
+    "description": "Description"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/posts/": {
+      "get": {
+        "tags": [
+          "Posts-貼文"
+        ],
+        "description": "取得全部貼文",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "回應成功的API格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "posts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "627f5d9acc51eacb318ead73"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "拿鐵"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "不喜歡美式，只愛冰拿鐵，一天精神糧食"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "https://hello.com"
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "likes": {
+                        "type": "number",
+                        "example": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Posts-貼文"
+        ],
+        "description": "新增一則貼文",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "資料格式",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Reckie"
+                },
+                "tags": {
+                  "type": "string",
+                  "example": "你好"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "這是一則貼文"
+                }
+              },
+              "required": [
+                "name",
+                "tags",
+                "content"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "回應成功的API格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "新增成功"
+                },
+                "posts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "627f5d9acc51eacb318ead73"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "拿鐵"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "不喜歡美式，只愛冰拿鐵，一天精神糧食"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "https://hello.com"
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "likes": {
+                        "type": "number",
+                        "example": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Posts-貼文"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/posts/{id}": {
+      "delete": {
+        "tags": [
+          "Posts-貼文"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "patch": {
+        "tags": [
+          "Posts-貼文"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "definitions": {}
+}

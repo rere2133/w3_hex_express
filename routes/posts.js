@@ -17,10 +17,16 @@ router.get("/", PostControllers.getPosts);
 router.post("/", PostControllers.createPosts);
 router.delete("/", PostControllers.deleteAllPosts);
 router.delete("/:id", (req, res) => {
+  /**
+   *  #swagger.tags = ['Posts-貼文']
+   */
   const id = req.params.id;
   PostControllers.deletePost(id, res);
 });
 router.patch("/:id", (req, res) => {
+  /**
+   *  #swagger.tags = ['Posts-貼文']
+   */
   const id = req.params.id;
   PostControllers.editPost(req, res, id);
 });
