@@ -1,17 +1,29 @@
 const handleSuccess = require("../services/handleSuccess");
 const handleError = require("../services/handleError");
 const Post = require("../models/postModel");
-
-const posts = {
+const User = require("../models/userModel");
+const postControllers = {
   async getPosts(req, res) {
-    await handleSuccess(res);
+    const timeSort = req.query.timeSort == "asc" ? "createAt" : "-createAt";
+    const search =
+      req.query.search !== undefined
+        ? { content: new RegExp(req.query.search) }
+        : {};
+    const posts = await Post.find(search)
+      .populate({
+        path: "user",
+        select: "name photo",
+      })
+      .sort(timeSort);
+    await handleSuccess(res, null, posts);
   },
   async createPosts(req, res) {
     try {
       const data = req.body;
-      if (data.name && data.content) {
+      console.log({ data });
+      if (data.user && data.content) {
         await Post.create({
-          name: data.name,
+          user: data.user,
           content: data.content,
           image: data.image || "",
           tags: data.tags || [],
@@ -28,12 +40,14 @@ const posts = {
     await Post.deleteMany({});
     await handleSuccess(res);
   },
-  async deletePost(id, res) {
+  async deletePost(req, res) {
+    const id = req.params.id;
     await Post.findByIdAndDelete(id);
     await handleSuccess(res, "成功刪除一筆");
   },
-  async editPost(req, res, id) {
+  async editPost(req, res) {
     try {
+      const id = req.params.id;
       const data = req.body;
       console.log({ data });
       if (data.name && data.content) {
@@ -59,4 +73,4 @@ const posts = {
     handleSuccess(res, "options");
   },
 };
-module.exports = posts;
+module.exports = postControllers;

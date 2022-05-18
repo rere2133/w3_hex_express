@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, "名稱尚未填寫"],
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "user",
+      required: [true, "貼文 id 未填寫"],
     },
     content: {
       type: String,
@@ -26,8 +27,8 @@ const postSchema = new mongoose.Schema(
     },
     createAt: {
       type: Date,
-      default: Date.now(),
-      select: false,
+      default: Date.now,
+      // select: false,
     },
   },
   {
@@ -35,5 +36,5 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Post = mongoose.model("post", postSchema);
 module.exports = Post;
