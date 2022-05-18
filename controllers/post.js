@@ -4,7 +4,11 @@ const Post = require("../models/postModel");
 
 const posts = {
   async getPosts(req, res) {
-    await handleSuccess(res);
+    try {
+      await handleSuccess(res);
+    } catch {
+      handleError(res);
+    }
   },
   async createPosts(req, res) {
     try {
@@ -25,24 +29,43 @@ const posts = {
     }
   },
   async deleteAllPosts(req, res) {
-    await Post.deleteMany({});
-    await handleSuccess(res);
-  },
-  async deletePost(id, res) {
-    await Post.findByIdAndDelete(id);
-    await handleSuccess(res, "成功刪除一筆");
-  },
-  async editPost(req, res, id) {
     try {
+      await Post.deleteMany({});
+      await handleSuccess(res);
+    } catch {
+      handleError(res);
+    }
+  },
+  async deletePost(req, res) {
+    try {
+      console.log(req.originalUrl);
+      const id = req.params.id;
+      let deletePost = await Post.findByIdAndDelete(id);
+      if (deletePost != null) {
+        await handleSuccess(res, "成功刪除一筆");
+      } else {
+        handleError(res);
+      }
+    } catch (err) {
+      handleError(res);
+    }
+  },
+  async editPost(req, res) {
+    try {
+      const id = req.params.id;
       const data = req.body;
       console.log({ data });
       if (data.name && data.content) {
-        let editedPost = await Post.findByIdAndUpdate(id, {
-          name: data.name,
-          content: data.content,
-          image: data.image || "",
-          tags: data.tags || [],
-        });
+        let editedPost = await Post.findByIdAndUpdate(
+          id,
+          {
+            name: data.name,
+            content: data.content,
+            image: data.image || "",
+            tags: data.tags || [],
+          },
+          { runValidators: true }
+        );
         if (editedPost !== null) {
           await handleSuccess(res, "成功更新一筆");
         } else {
